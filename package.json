@@ -1,0 +1,14 @@
+{
+  "name": "devpath",
+  "version": "1.0.0",
+  "description": "DevPath — Personalized developer training tracker",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "seed": "node server/seed.js",
+    "install:all": "npm install --include=dev && npm install --prefix client --include=dev && npm install --prefix server --include=dev",
+    "build": "npm run install:all && npm run build --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}
