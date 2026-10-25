@@ -10,6 +10,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUserDetail from './pages/admin/AdminUserDetail';
 import './styles/global.css';
 import './styles/design-refresh.css';
+import './styles/app-direction.css';
 
 function ProtectedRoute({ children, role }) {
   const { user, loading } = useAuth();
@@ -49,7 +50,11 @@ function PublicRoute({ children }) {
 }
 
 function AppRoutes() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading-container"><div className="spinner" role="status" aria-label="Loading DevPath" /></div>;
+  }
 
   if (user) {
     return (

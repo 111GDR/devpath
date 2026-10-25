@@ -39,19 +39,17 @@ function Register() {
   return (
     <div className="auth-page">
       <aside className="auth-showcase" aria-label="DevPath learning journey">
-        <div className="auth-showcase-top"><span className="brand-mark" aria-hidden="true">D<span>/</span></span><span>DEVPATH / LEARNING OS</span></div>
+        <div className="auth-showcase-top"><span className="brand-mark" aria-hidden="true">D<span>/</span></span><span>DevPath · Developer training</span></div>
         <div className="auth-showcase-copy">
-          <span className="auth-eyebrow">Build with purpose</span>
-          <h2>One focused step.<br /><em>Every day.</em></h2>
+          <h2>One focused step.<br />Every day.</h2>
           <p>A structured path from your first line of code to confident, production-ready work.</p>
-          <div className="auth-journey"><span>01 &nbsp; Learn</span><span>02 &nbsp; Build</span><span>03 &nbsp; Ship</span></div>
+          <div className="auth-journey"><span>Learn the concepts</span><span>Build something real</span><span>Ship your work</span></div>
         </div>
         <div className="auth-showcase-bottom"><span>42-week roadmap</span><span>Made for consistent progress</span></div>
       </aside>
       <div className="auth-container">
         <div className="auth-header">
-          <span className="auth-eyebrow">Start your journey</span>
-          <h1>Make progress a habit.</h1>
+          <h1>Create your DevPath account</h1>
           <p>Create your account to begin your first assignment.</p>
         </div>
 
@@ -67,7 +65,7 @@ function Register() {
                   id="register-name"
                   className="form-input"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Your full name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -84,7 +82,7 @@ function Register() {
                   id="register-email"
                   className="form-input"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="Your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

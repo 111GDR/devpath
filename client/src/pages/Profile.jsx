@@ -16,7 +16,7 @@ function Profile() {
     <div className="page" style={{ padding: 0 }}>
       <div className="dashboard-layout">
         <header className="dashboard-header animate-fade-in">
-          <h2>Profile</h2>
+          <h1>Profile</h1>
           <div className="dashboard-header-meta">
             <span>Account Details</span>
           </div>

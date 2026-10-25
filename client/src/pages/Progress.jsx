@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const PHASE_NAMES = {
   1: 'Foundations',
@@ -16,7 +17,7 @@ const STATUS_ICONS = {
 
 function getYouTubeEmbedUrl(url) {
   if (!url) return '';
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   if (match && match[2].length === 11) {
     return `https://www.youtube.com/embed/${match[2]}?autoplay=1`;
@@ -49,7 +50,7 @@ function VideoPlayerModal({ video, onClose }) {
             </div>
             <div>
               <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>{video.title}</h3>
-              <p style={{ fontSize: '0.65rem', fontFamily: 'JetBrains Mono', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resource Review</p>
+              <p style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resource Review</p>
             </div>
           </div>
           <button className="video-modal-close" onClick={onClose} aria-label="Close video player" style={{ border: 'none', background: 'transparent', display: 'flex', alignItems: 'center' }}>
@@ -121,28 +122,26 @@ function Progress() {
 
   const completedCount = tasks.filter(t => t.status === 'completed').length;
   const progressPercent = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0;
+  const activeTask = tasks.find(t => t.status === 'current');
 
   return (
     <div className="page" style={{ padding: 0 }}>
       <div className="dashboard-layout">
-        {/* Header Section */}
-        <header className="dashboard-header animate-fade-in">
-          <span className="page-eyebrow">Your learning path</span>
-          <h2>Curriculum Roadmap</h2>
-          <div className="dashboard-header-meta" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <span style={{ padding: '0.25rem 0.5rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                {completedCount} of {tasks.length} Tasks Completed
-              </span>
-              <span style={{ color: 'var(--text-muted)' }}>•</span>
-              <span style={{ color: 'var(--accent-blue)', fontWeight: 600 }}>{progressPercent}% Complete</span>
-            </div>
-          </div>
-        </header>
+        <div className="roadmap-top">
+          <header className="dashboard-header">
+            <h1>Curriculum roadmap</h1>
+            <p className="page-intro">{completedCount} of {tasks.length} assignments completed · {progressPercent}% of your path</p>
+          </header>
+          <aside className="roadmap-focus">
+            <span>Current assignment</span>
+            <strong>{activeTask?.title || 'Roadmap complete'}</strong>
+            <Link to="/dashboard">Open today’s work <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span></Link>
+          </aside>
+        </div>
 
         <nav className="phase-nav" aria-label="Jump to roadmap phase">
           {Object.keys(phases).map(phase => (
-            <a key={phase} href={`#phase-${phase}`} className="phase-nav-link"><span>0{phase}</span>{PHASE_NAMES[phase]}</a>
+            <a key={phase} href={`#phase-${phase}`} className="phase-nav-link">{PHASE_NAMES[phase]}</a>
           ))}
         </nav>
 
@@ -164,7 +163,7 @@ function Progress() {
 
               {Object.entries(weeks).map(([week, weekTasks]) => (
                 <div key={week} className="roadmap-week" style={{ paddingLeft: 'var(--space-md)' }}>
-                  <h3 style={{ fontSize: '0.9rem', color: 'var(--accent-purple)', fontFamily: 'JetBrains Mono', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-md)' }}>
+                  <h3 style={{ fontSize: '0.9rem', color: 'var(--accent-purple)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-md)' }}>
                     Week {week}
                   </h3>
                   
@@ -195,7 +194,7 @@ function Progress() {
                               <span className={`badge badge-${task.difficulty.toLowerCase()}`}>
                                 {task.difficulty}
                               </span>
-                              <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>
+                              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                                 {task.estimatedTime}
                               </span>
                               {!isLocked && <button className="roadmap-expand-btn" aria-expanded={isExpanded} aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${task.title}`} onClick={(event) => { event.stopPropagation(); toggleExpandTask(task); }}><span className="material-symbols-outlined" aria-hidden="true">{isExpanded ? 'expand_less' : 'expand_more'}</span></button>}
@@ -223,7 +222,7 @@ function Progress() {
                               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-md)', marginTop: 'var(--space-md)' }}>
                                 {task.videos && task.videos.length > 0 && (
                                   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                                    <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📹 Videos</h4>
+                                    <h4 className="task-section-heading">Videos</h4>
                                     {task.videos.map((video, idx) => (
                                       <button 
                                         key={idx}
@@ -240,7 +239,7 @@ function Progress() {
 
                                 {task.docs && task.docs.length > 0 && (
                                   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                                    <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📄 Documentation</h4>
+                                    <h4 className="task-section-heading">Documentation</h4>
                                     {task.docs.map((doc, idx) => (
                                       <a 
                                         key={idx}
@@ -259,7 +258,7 @@ function Progress() {
 
                               {task.deliverable && (
                                 <div style={{ background: 'rgba(76, 215, 246, 0.05)', border: '1px solid rgba(76, 215, 246, 0.15)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md)', marginTop: 'var(--space-md)' }}>
-                                  <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--accent-blue)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Deliverable</h4>
+                                  <h4 style={{ fontSize: '0.7rem', color: 'var(--accent-blue)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Deliverable</h4>
                                   <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{task.deliverable}</p>
                                 </div>
                               )}

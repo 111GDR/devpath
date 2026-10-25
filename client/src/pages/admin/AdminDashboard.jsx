@@ -33,18 +33,12 @@ function AdminDashboard() {
     <div className="page" style={{ padding: 0 }}>
       <div className="dashboard-layout">
         <header className="dashboard-header animate-fade-in">
-          <h2>Student Overview</h2>
+          <h1>Students</h1>
           <div className="dashboard-header-meta">
-            <span>Manage and monitor cohort progress</span>
+            <span>Follow each learner’s place in the roadmap.</span>
+            <strong className="admin-count">{users.length} {users.length === 1 ? 'student' : 'students'}</strong>
           </div>
         </header>
-
-        <div className="stats-grid animate-fade-in delay-1" style={{ marginBottom: 'var(--space-md)' }}>
-          <div className="stat-card">
-            <div className="stat-label">Active Students</div>
-            <div className="stat-value" style={{ color: 'var(--accent-blue)' }}>{users.length}</div>
-          </div>
-        </div>
 
         {users.length === 0 ? (
           <div className="empty-state animate-fade-in">
@@ -68,7 +62,7 @@ function AdminDashboard() {
                 {users.map(user => (
                   <tr key={user._id} className="table-row-hover" tabIndex={0} aria-label={`View ${user.name}'s roadmap`} onClick={() => navigate(`/admin/users/${user._id}`)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); navigate(`/admin/users/${user._id}`); } }}>
                     <td data-label="Name" style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{user.name}</td>
-                    <td data-label="Email" style={{ fontFamily: 'JetBrains Mono', fontSize: '0.85rem' }}>{user.email}</td>
+                    <td data-label="Email" style={{ fontSize: '0.85rem' }}>{user.email}</td>
                     <td data-label="Phase / Week">
                       {user.currentPhase ? (
                         <>
@@ -85,7 +79,7 @@ function AdminDashboard() {
                         <div className="progress-bar-container" style={{ width: 80, height: 6 }}>
                           <div className="progress-bar-fill" style={{ width: `${user.percentage}%` }} />
                         </div>
-                        <span style={{ fontSize: '0.8rem', fontFamily: 'JetBrains Mono', color: 'var(--accent-blue)', fontWeight: 600 }}>{user.percentage}%</span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--accent-blue)', fontWeight: 600 }}>{user.percentage}%</span>
                       </div>
                     </td>
                     <td data-label="Streak">

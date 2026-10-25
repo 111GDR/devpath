@@ -17,7 +17,7 @@ const STATUS_ICONS = {
 
 function getYouTubeEmbedUrl(url) {
   if (!url) return '';
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   if (match && match[2].length === 11) {
     return `https://www.youtube.com/embed/${match[2]}?autoplay=1`;
@@ -50,7 +50,7 @@ function VideoPlayerModal({ video, onClose }) {
             </div>
             <div>
               <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>{video.title}</h3>
-              <p style={{ fontSize: '0.65rem', fontFamily: 'JetBrains Mono', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resource Review</p>
+              <p style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Resource Review</p>
             </div>
           </div>
           <button className="video-modal-close" onClick={onClose} aria-label="Close video player" style={{ border: 'none', background: 'transparent', display: 'flex', alignItems: 'center' }}>
@@ -162,34 +162,14 @@ function AdminUserDetail() {
             <span>Back to Users</span>
           </button>
           
-          <h2>Student Detail</h2>
-          <div className="dashboard-header-meta">
-            <span className="material-symbols-outlined" style={{ fontSize: '1rem', color: 'var(--danger-red)' }}>admin_panel_settings</span>
-            <span style={{ color: 'var(--danger-red)', fontWeight: 600 }}>Override Actions Enabled</span>
-          </div>
+          <h1>{userData?.name || 'Student detail'}</h1>
+          <p className="page-intro">Review this learner’s roadmap and move them forward when needed.</p>
         </header>
 
-        {/* Student Profile Card (Bento/Elevated glass card) */}
-        <div className="card animate-slide-up" style={{ width: '100%', marginBottom: 'var(--space-xl)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-            <div className="profile-avatar" style={{ margin: 0, width: '64px', height: '64px', fontSize: '1.5rem' }}>
-              {userData?.name?.charAt(0)?.toUpperCase()}
-            </div>
-            <div>
-              <h3 style={{ fontSize: '1.25rem' }}>{userData?.name}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontFamily: 'JetBrains Mono' }}>{userData?.email}</p>
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: 'var(--space-lg)', flexWrap: 'wrap', borderTop: '1px solid var(--border-color)', paddingTop: 'var(--space-md)' }}>
-            <div>
-              <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>CURRENT TASK</span>
-              <p style={{ fontWeight: 600, color: 'var(--accent-blue)' }}>#{(userData?.currentTaskIndex || 0) + 1}</p>
-            </div>
-            <div>
-              <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>STREAK</span>
-              <p style={{ fontWeight: 600, color: 'var(--warning-orange)' }}>{userData?.streak || 0} Days</p>
-            </div>
-          </div>
+        <div className="card learner-summary">
+          <div><span>Email</span><strong>{userData?.email}</strong></div>
+          <div><span>Current task</span><strong>#{(userData?.currentTaskIndex || 0) + 1}</strong></div>
+          <div><span>Day streak</span><strong>{userData?.streak || 0}</strong></div>
         </div>
 
         {/* Roadmap listing */}
@@ -203,7 +183,7 @@ function AdminUserDetail() {
 
               {Object.entries(weeks).map(([week, weekTasks]) => (
                 <div key={week} className="roadmap-week" style={{ paddingLeft: 'var(--space-md)' }}>
-                  <h3 style={{ fontSize: '0.9rem', color: 'var(--accent-purple)', fontFamily: 'JetBrains Mono', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-md)' }}>
+                  <h3 style={{ fontSize: '0.9rem', color: 'var(--accent-purple)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-md)' }}>
                     Week {week}
                   </h3>
 
@@ -232,7 +212,7 @@ function AdminUserDetail() {
                               <span className={`badge badge-${task.difficulty.toLowerCase()}`}>
                                 {task.difficulty}
                               </span>
-                              <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>
+                              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                                 {task.estimatedTime}
                               </span>
                               <button className="roadmap-expand-btn" aria-expanded={isExpanded} aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${task.title}`} onClick={(event) => { event.stopPropagation(); toggleExpandTask(task.index); }}><span className="material-symbols-outlined" aria-hidden="true">{isExpanded ? 'expand_less' : 'expand_more'}</span></button>
@@ -276,7 +256,7 @@ function AdminUserDetail() {
                               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-md)', marginTop: 'var(--space-md)' }}>
                                 {task.videos && task.videos.length > 0 && (
                                   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                                    <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📹 Videos</h4>
+                                    <h4 className="task-section-heading">Videos</h4>
                                     {task.videos.map((video, idx) => (
                                       <button 
                                         key={idx}
@@ -293,7 +273,7 @@ function AdminUserDetail() {
 
                                 {task.docs && task.docs.length > 0 && (
                                   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                                    <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📄 Documentation</h4>
+                                    <h4 className="task-section-heading">Documentation</h4>
                                     {task.docs.map((doc, idx) => (
                                       <a 
                                         key={idx}
@@ -312,7 +292,7 @@ function AdminUserDetail() {
 
                               {task.deliverable && (
                                 <div style={{ background: 'rgba(76, 215, 246, 0.05)', border: '1px solid rgba(76, 215, 246, 0.15)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md)', marginTop: 'var(--space-md)' }}>
-                                  <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--accent-blue)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Deliverable</h4>
+                                  <h4 style={{ fontSize: '0.7rem', color: 'var(--accent-blue)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Deliverable</h4>
                                   <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{task.deliverable}</p>
                                 </div>
                               )}
