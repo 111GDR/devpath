@@ -21,6 +21,9 @@ app.use(helmet({
     directives: {
       frameSrc: ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com']
     }
+  },
+  referrerPolicy: {
+    policy: 'strict-origin-when-cross-origin'
   }
 }));
 
