@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const PHASE_NAMES = {
@@ -55,16 +56,16 @@ function DailyChecklist({ loginDates = [] }) {
   }, [loginDates]);
 
   return (
-    <div className="card" style={{ marginTop: 'var(--space-md)' }}>
+    <div className="card daily-checklist">
       <div style={{ marginBottom: 'var(--space-lg)' }}>
         <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>Daily Activity Checklist</h3>
         <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Track your consistency and completion checklist for this week.</p>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'var(--space-md)' }}>
+      <div className="daily-checklist-grid">
         {weekDays.map((day, i) => (
           <div
             key={i}
-            className="glass-panel"
+            className="glass-panel daily-checklist-day"
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -92,9 +93,10 @@ function DailyChecklist({ loginDates = [] }) {
                 cancel
               </span>
             )}
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 'var(--space-sm)' }}>
+            <span className="activity-status-full" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 'var(--space-sm)' }}>
               {day.isToday ? 'Today' : day.active ? 'Completed' : day.isFuture ? 'Upcoming' : 'Missed'}
             </span>
+            <span className="activity-status-short">{day.isToday ? 'Today' : day.active ? 'Done' : day.isFuture ? 'Next' : 'Missed'}</span>
           </div>
         ))}
       </div>
@@ -368,13 +370,41 @@ function Dashboard() {
 
         {/* Bento Grid layout */}
         <div className="bento-grid">
-          {/* Stats Column - Takes 4 grid columns on desktop */}
-          <div className="bento-col-4 bento-stack animate-fade-in delay-1">
+          {/* Primary assignment */}
+          <div className="bento-col-8 dashboard-primary animate-fade-in delay-1">
+            {allCompleted ? (
+              <div className="task-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
+                <div className="task-done-message" style={{ textAlign: 'center' }}>
+                  <span className="material-symbols-outlined done-icon" aria-hidden="true" style={{ fontSize: '3rem', marginBottom: 'var(--space-md)', color: 'var(--accent-blue)' }}>school</span>
+                  <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)' }}>You completed the entire roadmap!</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Incredible dedication. You've grown from foundation concepts to professional-level skills.</p>
+                </div>
+              </div>
+            ) : doneMessage ? (
+              <div className="task-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
+                <div className="task-done-message" style={{ textAlign: 'center' }}>
+                  <span className="material-symbols-outlined done-icon" aria-hidden="true" style={{ fontSize: '3rem', color: 'var(--success-green)', marginBottom: 'var(--space-md)' }}>check_circle</span>
+                  <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)' }}>You're done for today!</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Come back tomorrow for your next assignment.</p>
+                  {doneMessage.nextTask && (
+                    <div style={{ marginTop: 'var(--space-xl)', padding: 'var(--space-md)', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', display: 'inline-block', border: '1px solid var(--border-color)' }}>
+                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Next up:</span>
+                      <p style={{ fontWeight: 600, color: 'var(--text-primary)', marginTop: '4px' }}>{doneMessage.nextTask.title}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : task ? (
+              <TaskCard task={task} onComplete={handleComplete} completing={completing} onPlayVideo={setActiveVideo} />
+            ) : null}
+          </div>
+          {/* Progress and momentum */}
+          <div className="bento-col-4 bento-stack dashboard-insights animate-fade-in delay-2">
             
             {/* Progress Wheel Card */}
             <div className="glass-panel progress-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '128px', height: '128px', background: 'rgba(221, 183, 255, 0.05)', borderRadius: '50%', filter: 'blur(40px)' }}></div>
-              <h3 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', width: '100%', textAlign: 'left', marginBottom: 'var(--space-md)' }}>Phase Progress</h3>
+              <h3 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', width: '100%', textAlign: 'left', marginBottom: 'var(--space-md)' }}>Roadmap progress</h3>
               
               <div style={{ position: 'relative', width: '160px', height: '160px' }}>
                 <svg className="circular-chart" viewBox="0 0 36 36" style={{ transform: 'rotate(-90deg)' }}>
@@ -391,6 +421,8 @@ function Dashboard() {
                   <span style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>{percentage}%</span>
                 </div>
               </div>
+              <p className="progress-caption">{progress?.currentTaskIndex || 0} of {progress?.totalTasks || 0} assignments completed</p>
+              <Link to="/progress" className="progress-link">Explore the roadmap <span className="material-symbols-outlined" aria-hidden="true">arrow_forward</span></Link>
             </div>
 
             {/* Streak & Completes Horizontal row */}
@@ -424,34 +456,6 @@ function Dashboard() {
 
           </div>
 
-          {/* Today's Task column - Takes 8 grid columns on desktop */}
-          <div className="bento-col-8 animate-fade-in delay-2">
-            {allCompleted ? (
-              <div className="task-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
-                <div className="task-done-message" style={{ textAlign: 'center' }}>
-                  <span className="material-symbols-outlined done-icon" aria-hidden="true" style={{ fontSize: '3rem', marginBottom: 'var(--space-md)', color: 'var(--accent-blue)' }}>school</span>
-                  <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)' }}>You completed the entire roadmap!</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Incredible dedication. You've grown from foundation concepts to professional-level skills.</p>
-                </div>
-              </div>
-            ) : doneMessage ? (
-              <div className="task-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
-                <div className="task-done-message" style={{ textAlign: 'center' }}>
-                  <span className="material-symbols-outlined done-icon" aria-hidden="true" style={{ fontSize: '3rem', color: 'var(--success-green)', marginBottom: 'var(--space-md)' }}>check_circle</span>
-                  <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)' }}>You're done for today!</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Come back tomorrow for your next assignment.</p>
-                  {doneMessage.nextTask && (
-                    <div style={{ marginTop: 'var(--space-xl)', padding: 'var(--space-md)', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', display: 'inline-block', border: '1px solid var(--border-color)' }}>
-                      <span style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Next up:</span>
-                      <p style={{ fontWeight: 600, color: 'var(--text-primary)', marginTop: '4px' }}>{doneMessage.nextTask.title}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : task ? (
-              <TaskCard task={task} onComplete={handleComplete} completing={completing} onPlayVideo={setActiveVideo} />
-            ) : null}
-          </div>
         </div>
 
         {/* Calendar Heatmap Section - Spans Full Width */}

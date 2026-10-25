@@ -127,6 +127,7 @@ function Progress() {
       <div className="dashboard-layout">
         {/* Header Section */}
         <header className="dashboard-header animate-fade-in">
+          <span className="page-eyebrow">Your learning path</span>
           <h2>Curriculum Roadmap</h2>
           <div className="dashboard-header-meta" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
@@ -139,6 +140,12 @@ function Progress() {
           </div>
         </header>
 
+        <nav className="phase-nav" aria-label="Jump to roadmap phase">
+          {Object.keys(phases).map(phase => (
+            <a key={phase} href={`#phase-${phase}`} className="phase-nav-link"><span>0{phase}</span>{PHASE_NAMES[phase]}</a>
+          ))}
+        </nav>
+
         {/* Progress Bar overall */}
         <div className="animate-fade-in delay-1" style={{ marginBottom: 'var(--space-lg)' }}>
           <div className="progress-bar-container">
@@ -149,7 +156,7 @@ function Progress() {
         {/* Roadmap Tree view */}
         <div className="roadmap-tree animate-fade-in delay-2">
           {Object.entries(phases).map(([phase, weeks]) => (
-            <div key={phase} className="roadmap-phase">
+            <div key={phase} id={`phase-${phase}`} className="roadmap-phase">
               <h2 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', margin: 'var(--space-lg) 0' }}>
                 <span className="badge badge-phase">Phase {phase}</span>
                 <span style={{ color: 'var(--text-primary)' }}>{PHASE_NAMES[phase]}</span>

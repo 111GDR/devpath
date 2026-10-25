@@ -74,6 +74,8 @@ button:disabled { cursor: not-allowed; }
 .glass-panel { padding: 24px; }
 .bento-grid { gap: 22px; align-items: stretch; }
 .bento-stack { gap: 18px; }
+.dashboard-primary { min-width: 0; }
+.dashboard-insights { align-self: start; }
 
 .btn { min-height: 44px; border-radius: 11px; letter-spacing: 0; font-weight: 700; }
 .btn-primary { color: #fff; background: var(--accent-blue); box-shadow: 0 7px 15px rgba(49, 95, 223, .16); }
@@ -114,6 +116,17 @@ button:disabled { cursor: not-allowed; }
 /* Daily task and progress */
 .progress-panel { min-height: 260px; background: linear-gradient(145deg, #fff, #f9fbff); }
 .progress-panel::before { content: ''; position: absolute; width: 130px; height: 130px; right: -45px; top: -45px; border-radius: 50%; background: #e9efff; }
+.progress-caption { color: var(--text-secondary); font-size: .77rem; text-align: center; margin: 10px 0 16px; }
+.progress-link { display: inline-flex; align-items: center; justify-content: center; gap: 5px; width: 100%; min-height: 38px; border-radius: 9px; background: #eaf0ff; color: var(--accent-blue); font-weight: 700; font-size: .77rem; }
+.progress-link:hover { background: #dce7ff; color: var(--accent-blue-hover); }
+.progress-link .material-symbols-outlined { font-size: 1rem; transition: transform 180ms ease; }
+.progress-link:hover .material-symbols-outlined { transform: translateX(3px); }
+.daily-checklist { margin-top: 0; }
+.daily-checklist-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+.daily-checklist-day { box-shadow: none; text-align: center; padding: 16px 7px !important; min-width: 0; }
+.daily-checklist-day:hover { box-shadow: none; transform: translateY(-2px); }
+.daily-checklist-day > span:last-child { overflow-wrap: anywhere; }
+.activity-status-short { display: none; }
 .circle-bg { stroke: #e6ebf5; }
 .progress-bar-container { background: #e5ebf6; }
 .progress-bar-fill { background: var(--accent-blue); }
@@ -130,6 +143,8 @@ button:disabled { cursor: not-allowed; }
 .daily-task-card .concept-tag { color: #36589a; border-color: #d7e2f7; background: #eef3ff; }
 .daily-task-card .task-resource { background: #f7f9fd !important; border: 1px solid var(--border-color) !important; padding: 11px 13px !important; min-height: 46px; width: 100%; }
 .daily-task-card .task-resource:hover { background: #edf3ff !important; border-color: #a8bdeb !important; }
+.daily-task-card .task-resource:hover .material-symbols-outlined { transform: translateX(2px); }
+.daily-task-card .task-resource .material-symbols-outlined { transition: transform 180ms ease; }
 .task-deliverable { background: #eff4ff; border: 1px solid #dbe7ff; border-radius: 12px; padding: 17px; }
 .task-deliverable h4 { color: var(--accent-blue) !important; }
 .task-deliverable p { color: var(--text-primary) !important; }
@@ -141,6 +156,11 @@ button:disabled { cursor: not-allowed; }
 
 /* Roadmap, student details, and admin overview */
 .roadmap-tree { max-width: 1000px; }
+.phase-nav { display: flex; flex-wrap: wrap; gap: 9px; margin-top: -6px; }
+.phase-nav-link { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 7px 11px; background: #fff; border: 1px solid var(--border-color); border-radius: 9px; color: var(--text-secondary); font-size: .76rem; font-weight: 700; }
+.phase-nav-link span { color: var(--accent-blue); font-family: 'JetBrains Mono', monospace; font-size: .7rem; }
+.phase-nav-link:hover { border-color: var(--border-color-hover); background: #edf3ff; color: var(--text-primary); }
+.roadmap-phase { scroll-margin-top: 32px; }
 .roadmap-tree::before { background: #d7e1f4; }
 .roadmap-phase { margin-bottom: 52px; }
 .roadmap-week { margin-bottom: 30px; }
@@ -216,6 +236,13 @@ button:disabled { cursor: not-allowed; }
   .mobile-bottom-item { flex: 1; min-height: 48px; color: var(--text-secondary); font-family: 'Inter', sans-serif; font-size: .65rem; text-transform: none; letter-spacing: 0; border-radius: 10px; }
   .mobile-bottom-item.active { color: var(--accent-blue); background: #eaf0ff; }
   .daily-task-card { padding: 23px 18px; }
+  .daily-checklist-grid { gap: 5px; }
+  .daily-checklist-day { padding: 10px 2px !important; }
+  .daily-checklist-day .material-symbols-outlined { font-size: 1.45rem !important; }
+  .daily-checklist-day .activity-status-full { display: none; }
+  .daily-checklist-day .activity-status-short { display: block; color: var(--text-muted); font-size: .57rem; line-height: 1.2; margin-top: 5px; }
+  .phase-nav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; margin-right: -16px; padding-right: 16px; }
+  .phase-nav-link { flex: 0 0 auto; }
   .task-card-meta { align-items: flex-start; }
   .roadmap-tree { padding-left: 8px; }
   .profile-card { padding: 22px; }
