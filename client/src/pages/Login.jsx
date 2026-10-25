@@ -25,15 +25,25 @@ function Login() {
 
   return (
     <div className="auth-page">
+      <aside className="auth-showcase" aria-label="DevPath learning journey">
+        <div className="auth-showcase-top"><span className="brand-mark" aria-hidden="true">D<span>/</span></span><span>DEVPATH / LEARNING OS</span></div>
+        <div className="auth-showcase-copy">
+          <span className="auth-eyebrow">Build with purpose</span>
+          <h2>One focused step.<br /><em>Every day.</em></h2>
+          <p>A structured path from your first line of code to confident, production-ready work.</p>
+          <div className="auth-journey"><span>01 &nbsp; Learn</span><span>02 &nbsp; Build</span><span>03 &nbsp; Ship</span></div>
+        </div>
+        <div className="auth-showcase-bottom"><span>42-week roadmap</span><span>Made for consistent progress</span></div>
+      </aside>
       <div className="auth-container">
         <div className="auth-header">
-          <h1 style={{ fontSize: '2.25rem', marginBottom: 'var(--space-xs)' }}>Dev<span>Path</span></h1>
-          <p className="sidebar-subtitle" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Access Portal</p>
-          <p style={{ marginTop: 'var(--space-sm)', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Authenticate to continue to dashboard</p>
+          <span className="auth-eyebrow">Welcome back</span>
+          <h1>Pick up where you left off.</h1>
+          <p>Sign in to see today's assignment and your progress.</p>
         </div>
 
         <div className="auth-card">
-          {error && <div className="auth-error">{error}</div>}
+          {error && <div className="auth-error" role="alert">{error}</div>}
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -82,7 +92,7 @@ function Login() {
         </div>
 
         <div className="auth-footer">
-          Don't have an account? <Link to="/register">Request Access</Link>
+          New to DevPath? <Link to="/register">Create an account</Link>
         </div>
       </div>
     </div>

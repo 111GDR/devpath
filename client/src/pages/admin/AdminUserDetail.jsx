@@ -187,7 +187,7 @@ function AdminUserDetail() {
             </div>
             <div>
               <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>STREAK</span>
-              <p style={{ fontWeight: 600, color: 'var(--warning-orange)' }}>🔥 {userData?.streak || 0} Days</p>
+              <p style={{ fontWeight: 600, color: 'var(--warning-orange)' }}>{userData?.streak || 0} Days</p>
             </div>
           </div>
         </div>
@@ -209,7 +209,6 @@ function AdminUserDetail() {
 
                   {weekTasks.map(task => {
                     const isExpanded = expandedTaskIndex === task.index;
-                    const isLocked = task.status === 'locked';
                     return (
                       <div 
                         key={task.index} 
@@ -236,6 +235,7 @@ function AdminUserDetail() {
                               <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>
                                 {task.estimatedTime}
                               </span>
+                              <button className="roadmap-expand-btn" aria-expanded={isExpanded} aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${task.title}`} onClick={(event) => { event.stopPropagation(); toggleExpandTask(task.index); }}><span className="material-symbols-outlined" aria-hidden="true">{isExpanded ? 'expand_less' : 'expand_more'}</span></button>
                               
                               {/* Override Skip Button */}
                               {task.status !== 'completed' && (

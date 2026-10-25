@@ -51,7 +51,7 @@ function Profile() {
 
               <div className="profile-detail">
                 <span className="label">Streak</span>
-                <span className="value" style={{ color: 'var(--warning-orange)', fontWeight: 600 }}>🔥 {user?.streak || 0} days</span>
+                <span className="value" style={{ color: 'var(--warning-orange)', fontWeight: 600 }}>{user?.streak || 0} days</span>
               </div>
             </>
           )}

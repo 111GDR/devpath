@@ -15,11 +15,15 @@ function Navbar() {
       {/* Desktop Sidebar Navigation */}
       <nav className="sidebar">
         <div className="sidebar-logo">
-          <div className="sidebar-logo-text">Dev<span>Path</span></div>
-          <div className="sidebar-subtitle">{isAdmin ? 'Admin Console' : 'Senior Track'}</div>
+          <span className="brand-mark" aria-hidden="true">D<span>/</span></span>
+          <div>
+            <div className="sidebar-logo-text">Dev<span>Path</span></div>
+            <div className="sidebar-subtitle">{isAdmin ? 'Admin workspace' : 'Your learning workspace'}</div>
+          </div>
         </div>
 
         <div className="sidebar-menu">
+          <span className="sidebar-section-label">Workspace</span>
           {isAdmin ? (
             <NavLink to="/admin" className="sidebar-item">
               <span className="material-symbols-outlined">group</span>
@@ -44,6 +48,10 @@ function Navbar() {
         </div>
 
         <div className="sidebar-footer">
+          <div className="sidebar-user">
+            <span className="sidebar-user-avatar" aria-hidden="true">{user?.name?.charAt(0)?.toUpperCase() || 'D'}</span>
+            <span className="sidebar-user-details"><strong>{user?.name || 'Developer'}</strong><small>{isAdmin ? 'Administrator' : 'Developer in training'}</small></span>
+          </div>
           <button onClick={handleLogout} className="sidebar-item" style={{ background: 'transparent', width: '100%', textAlign: 'left' }}>
             <span className="material-symbols-outlined">logout</span>
             <span>Logout</span>
@@ -53,8 +61,8 @@ function Navbar() {
 
       {/* Mobile Top Header */}
       <header className="mobile-header">
-        <div className="mobile-header-logo">Dev<span>Path</span></div>
-        <div style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--accent-purple)', fontWeight: 600, letterSpacing: '0.05em' }}>
+        <div className="mobile-header-brand"><span className="brand-mark" aria-hidden="true">D<span>/</span></span><div className="mobile-header-logo">Dev<span>Path</span></div></div>
+        <div className="mobile-role-badge">
           {isAdmin ? 'ADMIN' : 'STUDENT'}
         </div>
       </header>

@@ -191,6 +191,7 @@ function Progress() {
                               <span style={{ fontSize: '0.75rem', fontFamily: 'JetBrains Mono', color: 'var(--text-muted)' }}>
                                 {task.estimatedTime}
                               </span>
+                              {!isLocked && <button className="roadmap-expand-btn" aria-expanded={isExpanded} aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${task.title}`} onClick={(event) => { event.stopPropagation(); toggleExpandTask(task); }}><span className="material-symbols-outlined" aria-hidden="true">{isExpanded ? 'expand_less' : 'expand_more'}</span></button>}
                             </div>
                           </div>
 

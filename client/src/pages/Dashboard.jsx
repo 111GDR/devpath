@@ -163,9 +163,10 @@ function VideoPlayerModal({ video, onClose }) {
 
 function TaskCard({ task, onComplete, completing, onPlayVideo }) {
   return (
-    <div className="task-card animate-slide-up" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="task-card animate-slide-up daily-task-card">
+      <div className="section-eyebrow"><span className="section-eyebrow-dot" /> Today's assignment</div>
       {/* Top bar details */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
+      <div className="task-card-meta">
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono', fontSize: '0.75rem' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>calendar_today</span>
           <span>Phase {task.phase} / Wk {task.week} / Day {task.day}</span>
@@ -175,21 +176,18 @@ function TaskCard({ task, onComplete, completing, onPlayVideo }) {
         </span>
       </div>
 
-      <h2 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: 'var(--space-md)', letterSpacing: '-0.02em', lineHeight: '1.25' }}>{task.title}</h2>
+      <h2 className="daily-task-title">{task.title}</h2>
       
-      {/* Senior Developer Quote block */}
-      <div style={{ borderLeft: '2px solid var(--accent-purple)', background: 'rgba(22, 18, 36, 0.4)', padding: 'var(--space-md)', borderRadius: '0 var(--radius-md) var(--radius-md) 0', marginBottom: 'var(--space-lg)' }}>
-        <p style={{ fontStyle: 'italic', color: 'var(--text-secondary)', fontSize: '0.925rem', lineHeight: '1.6' }}>
-          "{task.description}"
-        </p>
+      <div className="task-description">
+        <p>{task.description}</p>
       </div>
 
       {/* Concept tags */}
       {task.concepts?.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
           {task.concepts.map((concept, i) => (
-            <span key={i} className="concept-tag" style={{ background: 'var(--bg-card-hover)', color: 'var(--accent-purple)', border: '1px solid rgba(221, 183, 255, 0.2)', padding: '0.25rem 0.75rem', borderRadius: 'var(--radius-full)', fontSize: '0.75rem', fontWeight: 600 }}>
-              [{concept.toUpperCase()}]
+            <span key={i} className="concept-tag">
+              {concept}
             </span>
           ))}
         </div>
@@ -206,7 +204,7 @@ function TaskCard({ task, onComplete, completing, onPlayVideo }) {
               key={i}
               onClick={() => onPlayVideo(video)}
               style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-sm)', borderRadius: 'var(--radius-md)', background: 'var(--bg-card-hover)', border: '1px solid transparent', textAlign: 'left', transition: 'border-color 0.2s', width: '100%' }}
-              className="resource-item-hover"
+              className="resource-item-hover task-resource"
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(76, 215, 246, 0.3)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}
             >
@@ -221,6 +219,7 @@ function TaskCard({ task, onComplete, completing, onPlayVideo }) {
               href={doc.url}
               target="_blank"
               rel="noopener noreferrer"
+              className="task-resource"
               style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-sm)', borderRadius: 'var(--radius-md)', background: 'var(--bg-card-hover)', border: '1px solid transparent', textDecoration: 'none', transition: 'border-color 0.2s' }}
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(221, 183, 255, 0.3)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}
@@ -233,7 +232,7 @@ function TaskCard({ task, onComplete, completing, onPlayVideo }) {
 
         {/* Right Column: Deliverable & Action */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-          <div style={{ background: 'rgba(76, 215, 246, 0.05)', border: '1px solid rgba(76, 215, 246, 0.15)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md)' }}>
+          <div className="task-deliverable">
             <h4 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.7rem', color: 'var(--accent-blue)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Deliverable</h4>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{task.deliverable}</p>
           </div>
@@ -346,7 +345,9 @@ function Dashboard() {
       <div className="dashboard-layout">
         {/* Header Section */}
         <header className="dashboard-header animate-fade-in">
-          <h2>{getGreeting()}, <span style={{ color: 'var(--accent-blue)' }}>{user?.name || 'Developer'}</span>.</h2>
+          <span className="page-eyebrow">Your workspace / Today</span>
+          <h2>{getGreeting()}, <span className="heading-accent">{user?.name || 'Developer'}</span>.</h2>
+          <p className="page-intro">A little progress today adds up. Your next step is ready.</p>
           {progress && (
             <div className="dashboard-header-meta">
               <span style={{ padding: '0.25rem 0.5rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
@@ -371,7 +372,7 @@ function Dashboard() {
           <div className="bento-col-4 bento-stack animate-fade-in delay-1">
             
             {/* Progress Wheel Card */}
-            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+            <div className="glass-panel progress-panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '128px', height: '128px', background: 'rgba(221, 183, 255, 0.05)', borderRadius: '50%', filter: 'blur(40px)' }}></div>
               <h3 style={{ fontFamily: 'JetBrains Mono', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', width: '100%', textAlign: 'left', marginBottom: 'var(--space-md)' }}>Phase Progress</h3>
               
@@ -428,7 +429,7 @@ function Dashboard() {
             {allCompleted ? (
               <div className="task-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
                 <div className="task-done-message" style={{ textAlign: 'center' }}>
-                  <div className="done-icon" style={{ fontSize: '3rem', marginBottom: 'var(--space-md)' }}>🎓</div>
+                  <span className="material-symbols-outlined done-icon" aria-hidden="true" style={{ fontSize: '3rem', marginBottom: 'var(--space-md)', color: 'var(--accent-blue)' }}>school</span>
                   <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)' }}>You completed the entire roadmap!</h2>
                   <p style={{ color: 'var(--text-secondary)' }}>Incredible dedication. You've grown from foundation concepts to professional-level skills.</p>
                 </div>
@@ -436,7 +437,7 @@ function Dashboard() {
             ) : doneMessage ? (
               <div className="task-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '350px' }}>
                 <div className="task-done-message" style={{ textAlign: 'center' }}>
-                  <div className="done-icon" style={{ fontSize: '3rem', color: 'var(--success-green)', marginBottom: 'var(--space-md)' }}>check_circle</div>
+                  <span className="material-symbols-outlined done-icon" aria-hidden="true" style={{ fontSize: '3rem', color: 'var(--success-green)', marginBottom: 'var(--space-md)' }}>check_circle</span>
                   <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)' }}>You're done for today!</h2>
                   <p style={{ color: 'var(--text-secondary)' }}>Come back tomorrow for your next assignment.</p>
                   {doneMessage.nextTask && (

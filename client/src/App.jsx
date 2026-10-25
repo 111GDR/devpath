@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUserDetail from './pages/admin/AdminUserDetail';
 import './styles/global.css';
+import './styles/design-refresh.css';
 
 function ProtectedRoute({ children, role }) {
   const { user, loading } = useAuth();
