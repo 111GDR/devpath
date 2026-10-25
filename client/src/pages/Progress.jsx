@@ -65,6 +65,9 @@ function VideoPlayerModal({ video, onClose }) {
             allowFullScreen
           ></iframe>
         </div>
+        <a href={video.url} target="_blank" rel="noopener noreferrer" className="video-external-link">
+          Video not playing? Watch on YouTube
+        </a>
       </div>
     </div>
   );

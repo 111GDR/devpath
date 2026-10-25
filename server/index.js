@@ -16,7 +16,13 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // ─── Security ────────────────────────────────────────────
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      frameSrc: ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com']
+    }
+  }
+}));
 
 // Rate limiting: 100 requests per 15 minutes per IP
 const limiter = rateLimit({

@@ -1005,6 +1005,14 @@ input, textarea, select {
   background: #000;
 }
 
+.video-external-link {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--accent-blue);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .video-iframe {
   position: absolute;
   top: 0;
